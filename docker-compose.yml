@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres:16
+    environment: { POSTGRES_USER: tads, POSTGRES_PASSWORD: tads, POSTGRES_DB: tads }
+    ports: [ "5433:5432" ]
+  mongo:
+    image: mongo:7
+    ports: [ "27017:27017" ]
+  neo4j:
+    image: neo4j:5
+    environment: { NEO4J_AUTH: "neo4j/tadspass123" }
+    ports: [ "7474:7474", "7687:7687" ]

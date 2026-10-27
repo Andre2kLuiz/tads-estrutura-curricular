@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Estrutura Curricular</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            color: #222
+        }
+
+        .row {
+            display: flex;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin: .5rem 0
+        }
+
+        select,
+        input,
+        button {
+            padding: .5rem;
+            font-size: 1rem
+        }
+
+        input {
+            flex: 1;
+            min-width: 180px
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 1rem
+        }
+
+        td,
+        th {
+            border-bottom: 1px solid #ddd;
+            padding: .6rem .4rem;
+            text-align: left
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: 600
+        }
+
+        .t {
+            font-weight: 600
+        }
+
+        .muted {
+            color: #666;
+            font-size: .9rem
+        }
+
+        .badge {
+            background: #e0e0e0;
+            padding: .2rem .4rem;
+            border-radius: 4px;
+            font-size: .85rem;
+            margin-right: .3rem;
+            display: inline-block
+        }
+
+        .badge-e {
+            background: #d1e7dd;
+            color: #0f5132
+        }
+
+        .badge-ou {
+            background: #fff3cd;
+            color: #664d03
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Estrutura Curricular</h1>
+    <div class="row">
+        <select id="curso"></select>
+        <select id="tipo">
+            <option value="busca">Buscar por nome ou código</option>
+            <option value="prereq">Pré-requisitos diretos (O que ela exige)</option>
+            <option value="prereq_transitivo">Pré-requisitos em cadeia (Histórico completo)</option>
+            <option value="dependentes">Disciplinas que ela libera (Desbloqueia)</option>
+        </select>
+        <select id="db">
+            <option value="postgres">PostgreSQL</option>
+            <option value="mongo">MongoDB</option>
+            <option value="neo4j">Neo4j</option>
+        </select>
+    </div>
+    <div class="row"><input id="q" placeholder="ex.: banco, TAD0102..." autofocus>
+        <button onclick="run()">Consultar</button><button onclick="cmp()">Comparar os 3 bancos</button>
+    </div>
+    <div id="out"></div>
+
+    <script>
+        const $ = id => document.getElementById(id), N = { postgres: "PostgreSQL", mongo: "MongoDB", neo4j: "Neo4j" };
+        fetch("/api/cursos").then(r => r.json()).then(cs => cs.forEach(c => $("curso").add(new Option(c.nome, c.chave))));
+        $("q").addEventListener("keydown", e => e.key === "Enter" && run());
+
+        const esc = s => String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+        // Formata valores complexos (Listas de dependências ou Grupos de E/OU)
+        function formatValue(val, key) {
+            if (val === null || val === undefined) return "";
+
+            // Se for uma lista de disciplinas liberadas/dependentes
+            if (Array.isArray(val)) {
+                if (val.length === 0) return '<span class="muted">Nenhuma</span>';
+
+                // Se for uma estrutura de grupos de pré-requisitos (Lista de listas)
+                if (Array.isArray(val[0])) {
+                    return val.map((grupo, idx) => {
+                        const itens = grupo.map(c => `<span class="badge">${esc(c)}</span>`).join(" OU ");
+                        return `<div><span class="badge badge-e">Grupo ${idx + 1}</span> ${itens}</div>`;
+                    }).join('<div class="muted" style="margin:.2rem 0; font-weight:bold;">E</div>');
+                }
+
+                // Se for uma lista simples de objetos (ex: disciplinas que ela libera)
+                if (typeof val[0] === 'object') {
+                    return val.map(d => `<div><span class="badge badge-e">${esc(d.codigo)}</span> ${esc(d.nome)} <small class="muted">(${esc(d.tipo_relacao || '')})</small></div>`).join("");
+                }
+
+                // Lista simples de strings (ex: códigos de cadeias expansíveis)
+                return val.map(c => `<span class="badge">${esc(c)}</span>`).join("");
+            }
+
+            // Fallback para valores comuns (Texto, número)
+            return esc(val);
+        }
+
+        function table(rs) {
+            if (!rs || !rs.length) return "<p>Nenhum resultado encontrado.</p>";
+            const cols = Object.keys(rs[0]);
+            return "<table><tr>" + cols.map(c => `<th>${c.toUpperCase()}</th>`).join("") + "</tr>" +
+                rs.map(r => "<tr>" + cols.map(c => `<td>${formatValue(r[c], c)}</td>`).join("") + "</tr>").join("") + "</table>";
+        }
+
+        async function call(db) {
+            const u = `/api/query?db=${db}&tipo=${$("tipo").value}&curso=${$("curso").value}&q=${encodeURIComponent($("q").value)}`;
+            const t = performance.now(), r = await fetch(u);
+            if (!r.ok) throw new Error(await r.text());
+            const j = await r.json();
+            j.total_ms = (performance.now() - t).toFixed(1);
+            return j;
+        }
+
+        async function run() {
+            try {
+                $("out").innerHTML = '<p class="muted">Buscando dados...</p>';
+                const j = await call($("db").value);
+                $("out").innerHTML = `<p class="t">${N[j.db]}: ${j.total} resultado(s) · consulta ${j.tempo_ms} ms · total (ida e volta) ${j.total_ms} ms</p>` + table(j.resultado) +
+                    (j.tipo === "prereq" ? '<p class="muted" style="margin-top:0.5rem;">💡 <strong>Legenda:</strong> Disciplinas no mesmo grupo funcionam como <strong>OU</strong>. Grupos diferentes exigem condição <strong>E</strong>.</p>' : "")
+            }
+            catch (e) { $("out").textContent = e.message }
+        }
+
+        async function cmp() {
+            try {
+                $("out").innerHTML = '<p class="muted">Aquececendo conexões e comparando os bancos...</p>';
+                let h = "<table><tr><th>Banco</th><th>Resultados</th><th>Consulta (ms)</th><th>Total (ms)</th></tr>", last;
+                for (const db of Object.keys(N)) {
+                    await call(db); // 1ª chamada aquece a conexão
+                    const j = await call(db); // 2ª chamada traz a métrica real
+                    last = j;
+                    h += `<tr><td>${N[db]}</td><td>${j.total}</td><td>${j.tempo_ms}</td><td>${j.total_ms}</td></tr>`
+                }
+                $("out").innerHTML = h + "</table><p class='muted'>Cada banco foi consultado duas vezes; exibindo a segunda medição (aquecida).</p>" + table(last.resultado)
+            }
+            catch (e) { $("out").textContent = e.message }
+        }
+    </script>
+</body>
+
+</html>

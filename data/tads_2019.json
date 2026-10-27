@@ -1,0 +1,298 @@
+{
+ "curso": {
+  "chave": "TADS-2019",
+  "sigla": "TADS",
+  "nome": "Tecnologia em Análise e Desenvolvimento de Sistemas",
+  "instituicao": "UFRN",
+  "versao": "2019"
+ },
+ "disciplinas": [
+  {
+   "codigo": "TAD0001",
+   "nome": "Fundamentos da Computação",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0102",
+   "nome": "Algoritmos e Programação",
+   "creditos": 6
+  },
+  {
+   "codigo": "TAD0103",
+   "nome": "Banco de Dados",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0105",
+   "nome": "Matemática Aplicada I",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0006",
+   "nome": "Sistemas Operacionais",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0012",
+   "nome": "Processo de Desenvolvimento de Software",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0004",
+   "nome": "Análise e Projeto Orientado a Objetos",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0009",
+   "nome": "Programação Orientada a Objetos",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0013",
+   "nome": "Matemática Aplicada II",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0111",
+   "nome": "Programação Visual e Autoria Web",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0114",
+   "nome": "Redes de Computadores",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0015",
+   "nome": "Empreendedorismo",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0018",
+   "nome": "Processamento Digital de Imagens",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0019",
+   "nome": "Programação Web",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0020",
+   "nome": "Estruturas de Dados",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0123",
+   "nome": "Sistemas Digitais",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0022",
+   "nome": "Estatística Aplicada",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0016",
+   "nome": "Vertentes Produtivas nas Ciências Agrárias",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0025",
+   "nome": "Inteligência Computacional",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0027",
+   "nome": "Programação para Dispositivos Móveis",
+   "creditos": 6
+  },
+  {
+   "codigo": "TAD0028",
+   "nome": "Planejamento e Gerência de Projetos",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0029",
+   "nome": "Arquitetura de Software",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0030",
+   "nome": "Microcontroladores",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0156",
+   "nome": "Projetos Aplicados I",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0108",
+   "nome": "Contexto Geográfico Regional",
+   "creditos": 2
+  },
+  {
+   "codigo": "TAD0032",
+   "nome": "Metodologia do Trabalho Científico",
+   "creditos": 2
+  },
+  {
+   "codigo": "TAD0035",
+   "nome": "Legislação e Ética em TI",
+   "creditos": 2
+  },
+  {
+   "codigo": "TAD0157",
+   "nome": "Projetos Aplicados II",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0140",
+   "nome": "Trabalho de Conclusão de Curso II",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0201",
+   "nome": "Raciocínio Lógico",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0202",
+   "nome": "Leitura e Produção de Textos",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0203",
+   "nome": "Gestão de Qualidade de Software",
+   "creditos": 3
+  },
+  {
+   "codigo": "TAD0204",
+   "nome": "Fundamentos e Técnicas em Ciências de Dados",
+   "creditos": 4
+  },
+  {
+   "codigo": "TAD0205",
+   "nome": "Trabalho de Conclusão de Curso I",
+   "creditos": 2
+  },
+  {
+   "codigo": "TAD0160",
+   "nome": "Sistemas Distribuídos",
+   "creditos": 2
+  }
+ ],
+ "prerequisitos": [
+  {
+   "disciplina": "TAD0009",
+   "grupos": [
+    [
+     "TAD0102"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0020",
+   "grupos": [
+    [
+     "TAD0102"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0025",
+   "grupos": [
+    [
+     "TAD0102"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0018",
+   "grupos": [
+    [
+     "TAD0102"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0019",
+   "grupos": [
+    [
+     "TAD0009"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0027",
+   "grupos": [
+    [
+     "TAD0009"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0013",
+   "grupos": [
+    [
+     "TAD0105"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0029",
+   "grupos": [
+    [
+     "TAD0009",
+     "TAD0103",
+     "TAD0111"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0156",
+   "grupos": [
+    [
+     "TAD0102"
+    ],
+    [
+     "TAD0012"
+    ],
+    [
+     "TAD0103"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0157",
+   "grupos": [
+    [
+     "TAD0156"
+    ],
+    [
+     "TAD0028"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0204",
+   "grupos": [
+    [
+     "TAD0102"
+    ],
+    [
+     "TAD0022"
+    ]
+   ]
+  },
+  {
+   "disciplina": "TAD0160",
+   "grupos": [
+    [
+     "TAD0114"
+    ]
+   ]
+  }
+ ]
+}
