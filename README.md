@@ -33,16 +33,16 @@ O segredo aqui é o parâmetro -v (ou --volumes). Ele força o Docker a apagar o
 
 docker compose down -v
 ```
-Use o código com cuidado.
+
 2. Subir os novos bancos limpos em segundo plano (Detached Mode):
 ```bash
 
 docker compose up -d
 ```
-Use o código com cuidado.
+
 3. Verificar se todos os serviços estão saudáveis e rodando:
 ```bash
 
 docker compose ps
 ```
-Use o código com cuidado.
+
